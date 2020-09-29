@@ -9,6 +9,8 @@ public class AudioManager : MonoBehaviour
 
     public static AudioManager Instance = null;
 
+    [SerializeField] AudioClip _startingSong = null;
+
     AudioSource _audioSource;
 
     private void Awake()
@@ -27,6 +29,14 @@ public class AudioManager : MonoBehaviour
         #endregion
     }
 
+    private void Start()
+    {
+        if (_startingSong != null)
+        {
+            PlaySong(_startingSong);
+        }
+    }
+    
     public void PlaySong(AudioClip clip)
     {
         _audioSource.clip = clip;

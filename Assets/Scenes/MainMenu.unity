@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1007,7 +1007,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c9803fd06af4c43b1d5b9a2c8df4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startingSong: {fileID: 8300000, guid: e9a54e7555b06f84aa2c68c54566014d, type: 3}
   _highScoreTextView: {fileID: 302138169}
 --- !u!1 &725709675
 GameObject:
@@ -1773,7 +1772,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1329148853}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 675916812}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: ResetData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1329148853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1893,7 +1904,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1422892579}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 675916812}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1422892579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2311,6 +2334,10 @@ PrefabInstance:
       propertyPath: Loop
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3006256571835614398, guid: 07f80f4f271b9254cad472684ad1ac89, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: e9a54e7555b06f84aa2c68c54566014d, type: 3}
     - target: {fileID: 3006256571835614399, guid: 07f80f4f271b9254cad472684ad1ac89, type: 3}
       propertyPath: m_Name
       value: AudioManager

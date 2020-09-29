@@ -7,9 +7,18 @@ using UnityEngine.UI;
 public class Level01Controller : MonoBehaviour
 {
 
-    [SerializeField] Text _currentScoreTextView;
+    [SerializeField] Text _currentScoreTextView = null;
+    [SerializeField] GameObject _popupMenu = null;
 
     int _currentScore;
+    bool _menuToggle = false;
+
+    private void Start()
+    {
+        _popupMenu.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
 
     private void Update()
     {
@@ -19,7 +28,15 @@ public class Level01Controller : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ExitLevel();
+            _menuToggle = !_menuToggle;
+        }
+        if (_menuToggle)
+        {
+            EnablePopupMenu();
+        }
+        else
+        {
+            ResumeLevel();
         }
     }
 
@@ -32,6 +49,22 @@ public class Level01Controller : MonoBehaviour
             UnityEngine.Debug.Log("New high score: " + _currentScore);
         }
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ResumeLevel()
+    {
+        _menuToggle = false;
+        _popupMenu.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void EnablePopupMenu()
+    {
+        _menuToggle = true;
+        _popupMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void IncreaseScore(int scoreIncrease)
