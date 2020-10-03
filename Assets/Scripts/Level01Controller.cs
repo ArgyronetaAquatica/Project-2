@@ -9,15 +9,23 @@ public class Level01Controller : MonoBehaviour
 
     [SerializeField] Text _currentScoreTextView = null;
     [SerializeField] GameObject _popupMenu = null;
+    [SerializeField] PlayerController _player = null;
+    [SerializeField] Text _healthText = null;
+    [SerializeField] Slider _healthSlider = null;
+    [SerializeField] GameObject _gameOverMenu = null;
 
     int _currentScore;
-    bool _menuToggle = false;
+    int _currentHealth;
+    public bool menuToggle = false;
 
     private void Start()
     {
         _popupMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        _currentHealth = _player.health;
+        _healthText.text = _currentHealth.ToString() + "%";
+        _healthSlider.value = _currentHealth;
     }
 
     private void Update()
@@ -26,11 +34,11 @@ public class Level01Controller : MonoBehaviour
         {
             IncreaseScore(5);
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && _player.alive)
         {
-            _menuToggle = !_menuToggle;
+            menuToggle = !menuToggle;
         }
-        if (_menuToggle)
+        if (menuToggle)
         {
             EnablePopupMenu();
         }
@@ -38,6 +46,23 @@ public class Level01Controller : MonoBehaviour
         {
             ResumeLevel();
         }
+
+        //update health bar
+        if (_currentHealth != _player.health)
+        {
+            _currentHealth = _player.health;
+            _healthText.text = _currentHealth.ToString() + "%";
+            _healthSlider.value = _currentHealth;
+        }
+
+        //kill check
+        if (_currentHealth <= 0)
+        {
+            _player.alive = false;
+            _player.health = 0;
+            GameOver();
+        }
+
     }
 
     public void ExitLevel()
@@ -53,16 +78,29 @@ public class Level01Controller : MonoBehaviour
 
     public void ResumeLevel()
     {
-        _menuToggle = false;
+        menuToggle = false;
         _popupMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
+    public void RestartLevel()
+    {
+        //reload level
+        SceneManager.LoadScene("Level01");
+    }
+
     private void EnablePopupMenu()
     {
-        _menuToggle = true;
+        menuToggle = true;
         _popupMenu.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    private void GameOver()
+    {
+        _gameOverMenu.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }

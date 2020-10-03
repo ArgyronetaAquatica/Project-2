@@ -6,9 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     
     public CharacterController controller;
+    public Level01Controller levelController;
 
     public float speed = 10f;
     public float jumpHeight = 5f;
+    public int health = 100;
+    public bool alive = true;
 
     //gravity stuff
     Vector3 velocity;
@@ -22,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     //shooting stuff
     public ParticleSystem muzzleFlash;
-    [SerializeField] AudioClip fireSound;
+    [SerializeField] AudioClip fireSound = null;
 
     // Update is called once per frame
     void Update()
@@ -34,38 +37,54 @@ public class PlayerController : MonoBehaviour
             velocity.y = -2f;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        Vector3 move = transform.right * x + transform.forward * z;
-
-        controller.Move(move * speed * Time.deltaTime);
-
-        //jump
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (alive)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+
+            Vector3 move = transform.right * x + transform.forward * z;
+
+            controller.Move(move * speed * Time.deltaTime);
+
+            //jump
+            if (Input.GetButtonDown("Jump") && isGrounded)
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
+
+            //sprint
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                speed += 5;
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                speed -= 5;
+            }
+
+            //fire
+            if (Input.GetMouseButtonDown(0) && !levelController.menuToggle)
+            {
+                muzzleFlash.Play();
+                AudioHelper.PlayClip2D(fireSound, 100);
+            }
+
+            velocity.y += gravity * Time.deltaTime;
+
+            controller.Move(velocity * Time.deltaTime);
+
+            //damage (test)
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Damage(5);
+            }
         }
 
-        //sprint
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            speed += 5;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            speed -= 5;
-        }
-
-        //fire
-        if (Input.GetMouseButtonDown(0))
-        {
-            muzzleFlash.Play();
-            AudioHelper.PlayClip2D(fireSound, 100);
-        }
-
-        velocity.y += gravity * Time.deltaTime;
-
-        controller.Move(velocity * Time.deltaTime);
     }
+
+    void Damage(int dmgAmount)
+    {
+        health -= dmgAmount;
+    }
+
 }
