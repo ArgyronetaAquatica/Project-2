@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && !levelController.menuToggle)
             {
                 muzzleFlash.Play();
-                AudioHelper.PlayClip2D(fireSound, 100);
+                AudioHelper.PlayClip2D(fireSound, 1f);
             }
 
             velocity.y += gravity * Time.deltaTime;
@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void Damage(int dmgAmount)
+    public void Damage(int dmgAmount)
     {
         health -= dmgAmount;
     }

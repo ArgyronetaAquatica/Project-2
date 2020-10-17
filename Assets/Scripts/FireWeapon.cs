@@ -9,10 +9,13 @@ public class FireWeapon : MonoBehaviour
     [SerializeField] Transform rayOrigin = null;
     [SerializeField] float shootDistance = 10f;
     [SerializeField] int weaponDamage = 20;
-    [SerializeField] GameObject visualFeedback = null;
     [SerializeField] LayerMask hitLayers;
 
     RaycastHit objectHit;
+
+    //visual feedback
+    [SerializeField] GameObject visualFeedback = null;
+    GameObject newInstance = null;
 
     void Update()
     {
@@ -32,7 +35,7 @@ public class FireWeapon : MonoBehaviour
         if(Physics.Raycast(rayOrigin.position, rayDirection, out objectHit, shootDistance, hitLayers))
         {
             UnityEngine.Debug.Log(objectHit.transform.name);
-            visualFeedback.transform.position = objectHit.point;
+            ImpactFlash();
 
             //apply damage if object is enemy
             if (objectHit.transform.tag == "Enemy")
@@ -49,6 +52,12 @@ public class FireWeapon : MonoBehaviour
         {
             UnityEngine.Debug.Log("miss");
         }
+    }
+
+    void ImpactFlash()
+    {
+        newInstance = Instantiate(visualFeedback, objectHit.point, Quaternion.identity);
+        Destroy(newInstance, .25f);
     }
 
 }
