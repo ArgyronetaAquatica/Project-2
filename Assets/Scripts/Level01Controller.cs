@@ -30,10 +30,8 @@ public class Level01Controller : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            IncreaseScore(5);
-        }
+        //if enemy killed
+        //increase score
         if (Input.GetKeyDown(KeyCode.Escape) && _player.alive)
         {
             menuToggle = !menuToggle;
@@ -79,6 +77,7 @@ public class Level01Controller : MonoBehaviour
     public void ResumeLevel()
     {
         menuToggle = false;
+        Time.timeScale = 1;//unpause
         _popupMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -93,6 +92,7 @@ public class Level01Controller : MonoBehaviour
     private void EnablePopupMenu()
     {
         menuToggle = true;
+        Time.timeScale = 0;//pause
         _popupMenu.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
