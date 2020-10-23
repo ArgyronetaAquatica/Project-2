@@ -23,10 +23,6 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundMask;
     bool isGrounded;
 
-    //shooting stuff
-    public ParticleSystem muzzleFlash;
-    [SerializeField] AudioClip fireSound = null;
-
     // Update is called once per frame
     void Update()
     {
@@ -62,22 +58,9 @@ public class PlayerController : MonoBehaviour
                 speed -= 5;
             }
 
-            //fire
-            if (Input.GetMouseButtonDown(0) && !levelController.menuToggle)
-            {
-                muzzleFlash.Play();
-                AudioHelper.PlayClip2D(fireSound, 1f);
-            }
-
             velocity.y += gravity * Time.deltaTime;
 
             controller.Move(velocity * Time.deltaTime);
-
-            //damage (test)
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Damage(5);
-            }
         }
 
     }
