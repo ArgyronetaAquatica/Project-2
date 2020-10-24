@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FireWeapon : MonoBehaviour
 {
@@ -25,6 +26,12 @@ public class FireWeapon : MonoBehaviour
     RaycastHit objectHit;
 
     bool grenadeLauncherEquipped = false;
+    int grenadeSupply = 0;
+
+    //grenade launcher ui
+    [Header("UI elements")]
+    [SerializeField] GameObject panelToActivate = null;
+    [SerializeField] Text grenadeText = null;
 
     //visual feedback
     [SerializeField] GameObject visualFeedback = null;
@@ -41,9 +48,14 @@ public class FireWeapon : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                if (grenadeLauncherEquipped)
+                if (grenadeLauncherEquipped && grenadeSupply > 0)
                 {
                     LaunchGrenade();
+                    UpdateGrenadeSupply(-1);
+                } else if (grenadeLauncherEquipped && grenadeSupply <= 0)
+                {
+                    toggleWeaponType();
+                    Shoot();
                 }
                 else
                 {
@@ -98,10 +110,12 @@ public class FireWeapon : MonoBehaviour
         {
             primaryWeapon.SetActive(false);
             secondaryWeapon.SetActive(true);
+            panelToActivate.SetActive(true);
         } else
         {
             primaryWeapon.SetActive(true);
             secondaryWeapon.SetActive(false);
+            panelToActivate.SetActive(false);
         }
     }
 
@@ -111,9 +125,12 @@ public class FireWeapon : MonoBehaviour
         GameObject newInstance = Instantiate(grenadeToSpawn, grenadeOrigin.position, transform.rotation);
         newInstance.GetComponent<Rigidbody>().AddForce(cameraController.transform.forward * 100f);
         AudioHelper.PlayClip2D(fireSound, 1f);
-        //TODO
-        //limit reload time
-        //limit amount of ammo
+    }
+
+    public void UpdateGrenadeSupply(int num)
+    {
+        grenadeSupply += num;
+        grenadeText.text = grenadeSupply.ToString();
     }
 
 }
