@@ -12,11 +12,17 @@ public class Level01Controller : MonoBehaviour
     [SerializeField] PlayerController _player = null;
     [SerializeField] Text _healthText = null;
     [SerializeField] Slider _healthSlider = null;
-    [SerializeField] GameObject _gameOverMenu = null;
+    [SerializeField] Slider _timerSlider = null;
+    [SerializeField] GameObject killMenu = null;
+    [SerializeField] GameObject gameOverMenu = null;
+    [SerializeField] Text currentScoreText = null;
+    [SerializeField] Text highScoreText = null;
+    [SerializeField] float timeLimit = 30f;
 
     int _currentScore;
     int _currentHealth;
     public bool menuToggle = false;
+    float timer = 0;
 
     private void Start()
     {
@@ -30,6 +36,14 @@ public class Level01Controller : MonoBehaviour
 
     private void Update()
     {
+        if (!menuToggle)
+        {
+            timer += Time.deltaTime;
+            //update timer slider
+            float timePercentage = timer / timeLimit * 100;
+            _timerSlider.value = 100 - timePercentage;
+        }
+
         //if enemy killed
         //increase score
         if (Input.GetKeyDown(KeyCode.Escape) && _player.alive)
@@ -58,6 +72,12 @@ public class Level01Controller : MonoBehaviour
         {
             _player.alive = false;
             _player.health = 0;
+            PlayerDeath();
+        }
+
+        //timer check
+        if (timer >= timeLimit)
+        {
             GameOver();
         }
 
@@ -98,11 +118,28 @@ public class Level01Controller : MonoBehaviour
         Cursor.visible = true;
     }
 
-    private void GameOver()
+    private void PlayerDeath()
     {
-        _gameOverMenu.SetActive(true);
+        killMenu.SetActive(true);
+        Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    void GameOver()
+    {
+        gameOverMenu.SetActive(true);
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        int highScore = PlayerPrefs.GetInt("HighScore");
+        if (_currentScore > highScore)
+        {
+            PlayerPrefs.SetInt("HighScore", _currentScore);
+            UnityEngine.Debug.Log("New high score: " + _currentScore);
+        }
+        currentScoreText.text = "Score: " + _currentScore.ToString();
+        highScoreText.text = "High Score: " + highScore.ToString();
     }
 
     public void IncreaseScore(int scoreIncrease)
