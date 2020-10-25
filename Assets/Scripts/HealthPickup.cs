@@ -6,6 +6,7 @@ public class HealthPickup : MonoBehaviour
 {
 
     [SerializeField] int healthAmount = 25;
+    [SerializeField] AudioClip healSound = null;
 
     void OnTriggerEnter(Collider other)
     {
@@ -19,8 +20,8 @@ public class HealthPickup : MonoBehaviour
                 {
                     player.health = 100;
                 }
-                //feedback sound
-                Destroy(this.gameObject);
+                AudioHelper.PlayClip2D(healSound, 1f);
+                Destroy(this.gameObject, .25f);
             }
         }
     }

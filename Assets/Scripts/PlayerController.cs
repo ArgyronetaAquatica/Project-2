@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public CharacterController controller;
     public Level01Controller levelController;
 
+    [SerializeField] AudioClip damageSound = null;
+
     public float speed = 10f;
     public float jumpHeight = 5f;
     public int health = 100;
@@ -33,7 +35,7 @@ public class PlayerController : MonoBehaviour
             velocity.y = -2f;
         }
 
-        if (alive)
+        if (alive && !levelController.gameOver)
         {
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");
@@ -68,6 +70,7 @@ public class PlayerController : MonoBehaviour
     public void Damage(int dmgAmount)
     {
         health -= dmgAmount;
+        AudioHelper.PlayClip2D(damageSound, 1f);
     }
 
 }

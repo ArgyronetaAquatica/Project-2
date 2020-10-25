@@ -131,4 +131,4 @@ MonoBehaviour:
   grenadeDamage: 50
   hitRadius: 10
   explosion: {fileID: 7642810057798232025, guid: 711b2207541dca24080ff31eb7d6e6ca, type: 3}
-  explosionSound: {fileID: 8300000, guid: bb5be56d3150e724e99654c2b6a86b20, type: 3}
+  explosionSound: {fileID: 8300000, guid: 0b3609fe35f1cd04880a94f4477b2864, type: 3}

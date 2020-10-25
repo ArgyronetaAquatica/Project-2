@@ -22,6 +22,7 @@ public class FireWeapon : MonoBehaviour
     public ParticleSystem muzzleFlash;
     public ParticleSystem grenadeLauncherFlash;
     [SerializeField] AudioClip fireSound = null;
+    [SerializeField] AudioClip weaponToggleSound = null;
 
     RaycastHit objectHit;
 
@@ -30,7 +31,7 @@ public class FireWeapon : MonoBehaviour
 
     //grenade launcher ui
     [Header("UI elements")]
-    [SerializeField] GameObject panelToActivate = null;
+    //[SerializeField] GameObject panelToActivate = null;
     [SerializeField] Text grenadeText = null;
 
     //visual feedback
@@ -39,7 +40,7 @@ public class FireWeapon : MonoBehaviour
 
     void Update()
     {
-        if (!levelController.menuToggle)
+        if (!levelController.menuToggle && !levelController.gameOver)
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -106,16 +107,17 @@ public class FireWeapon : MonoBehaviour
     void toggleWeaponType()
     {
         grenadeLauncherEquipped = !grenadeLauncherEquipped;
+        AudioHelper.PlayClip2D(weaponToggleSound, 1f);
         if (grenadeLauncherEquipped)
         {
             primaryWeapon.SetActive(false);
             secondaryWeapon.SetActive(true);
-            panelToActivate.SetActive(true);
+            //panelToActivate.SetActive(true);
         } else
         {
             primaryWeapon.SetActive(true);
             secondaryWeapon.SetActive(false);
-            panelToActivate.SetActive(false);
+            //panelToActivate.SetActive(false);
         }
     }
 

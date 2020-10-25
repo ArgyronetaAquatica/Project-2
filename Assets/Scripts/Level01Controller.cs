@@ -18,11 +18,16 @@ public class Level01Controller : MonoBehaviour
     [SerializeField] Text currentScoreText = null;
     [SerializeField] Text highScoreText = null;
     [SerializeField] float timeLimit = 30f;
+    [SerializeField] AudioClip deathClip = null;
+    [SerializeField] AudioClip timeOutClip = null;
 
     int _currentScore;
     int _currentHealth;
     public bool menuToggle = false;
+    public bool gameOver = false;
     float timer = 0;
+
+    bool clipPlayed = false;
 
     private void Start()
     {
@@ -36,6 +41,7 @@ public class Level01Controller : MonoBehaviour
 
     private void Update()
     {
+        
         if (!menuToggle)
         {
             timer += Time.deltaTime;
@@ -46,7 +52,7 @@ public class Level01Controller : MonoBehaviour
 
         //if enemy killed
         //increase score
-        if (Input.GetKeyDown(KeyCode.Escape) && _player.alive)
+        if (Input.GetKeyDown(KeyCode.Escape) && _player.alive && !gameOver)
         {
             menuToggle = !menuToggle;
         }
@@ -63,6 +69,10 @@ public class Level01Controller : MonoBehaviour
         if (_currentHealth != _player.health)
         {
             _currentHealth = _player.health;
+            if (_currentHealth < 0)
+            {
+                _currentHealth = 0;
+            }
             _healthText.text = _currentHealth.ToString() + "%";
             _healthSlider.value = _currentHealth;
         }
@@ -121,7 +131,13 @@ public class Level01Controller : MonoBehaviour
     private void PlayerDeath()
     {
         killMenu.SetActive(true);
+        if (!clipPlayed)
+        {
+            AudioHelper.PlayClip2D(deathClip, 1f);
+            clipPlayed = true;
+        }
         Time.timeScale = 0;
+        gameOver = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -129,7 +145,13 @@ public class Level01Controller : MonoBehaviour
     void GameOver()
     {
         gameOverMenu.SetActive(true);
+        if (!clipPlayed)
+        {
+            AudioHelper.PlayClip2D(timeOutClip, 1f);
+            clipPlayed = true;
+        }
         Time.timeScale = 0;
+        gameOver = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         int highScore = PlayerPrefs.GetInt("HighScore");

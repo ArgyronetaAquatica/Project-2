@@ -5090,7 +5090,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157091899771244308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.82, y: 0, z: 0.489}
+  m_LocalPosition: {x: 0, y: 0, z: 0.492}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1157091899091939762}
@@ -10083,7 +10083,7 @@ MonoBehaviour:
   target: {fileID: 0}
   rateOfFire: 1
   bulletOrigin: {fileID: 1157091899771244309}
-  hitRange: 20
+  hitRange: 30
   bulletSound: {fileID: 8300000, guid: bb5be56d3150e724e99654c2b6a86b20, type: 3}
   damageSound: {fileID: 8300000, guid: 1d9b5e74ae37fe94b8c327f55c916101, type: 3}
   muzzleFlash: {fileID: 1157091899913778388}

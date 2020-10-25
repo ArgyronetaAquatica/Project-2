@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GrenadePickup : MonoBehaviour
 {
-    
+    [SerializeField] AudioClip pickupSound = null;
+
     void OnTriggerEnter(Collider other)
     {
         FireWeapon playerWeapon = other.gameObject.GetComponent<FireWeapon>();
@@ -12,6 +13,7 @@ public class GrenadePickup : MonoBehaviour
         {
             playerWeapon.UpdateGrenadeSupply(1);
             //feedback sound
+            AudioHelper.PlayClip2D(pickupSound, 1f);
             Destroy(this.gameObject, .25f);
         }
     }
